@@ -76,6 +76,23 @@ class Node:
     def __lt__(self, other):
         return False
 
+def heuristic(p1, p2):
+    # figure out the distance between two points using the manhattan distance
+    x1, y1 = p1
+    x2, y2 = p2
+    return abs(x1 - x2) + abs(y1 - y2)
+
+def make_grid(rows, width):
+    grid = []
+    gap = width // rows
+    for i in range(rows):
+        grid.append([])
+        for j in range(rows):
+            node = Node(i, j, gap, rows)
+            grid[i].append(node)
+
+    return grid
+
 if __name__ == '__main__':
     print('PyCharm')
 
