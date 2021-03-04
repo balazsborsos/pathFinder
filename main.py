@@ -72,7 +72,18 @@ class Node:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
-        pass
+        self.neighbors = []
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():  # Down
+            self.neighbors.append(grid[self.row + 1][self.col])
+
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():  # Up
+            self.neighbors.append(grid[self.row - 1][self.col])
+
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():  # Right
+            self.neighbors.append(grid[self.row][self.col + 1])
+
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():  # Left
+            self.neighbors.append(grid[self.row][self.col - 1])
 
     def __lt__(self, other):
         return False
@@ -125,6 +136,7 @@ def get_clicked_pos(pos, rows, width):
 
     return row, col
 
+
 def main(win, width):
     ROWS = 50
     grid = make_grid(ROWS, width)
@@ -143,7 +155,7 @@ def main(win, width):
             if started:
                 continue
 
-            if pygame.mouse.get_pressed()[0]: # Left mouse button
+            if pygame.mouse.get_pressed()[0]:  # Left mouse button
                 pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 node = grid[row][col]
@@ -157,7 +169,7 @@ def main(win, width):
                 elif node != end and node != start:
                     node.make_barrier()
 
-            elif pygame.mouse.get_pressed()[2]: # Right mouse button
+            elif pygame.mouse.get_pressed()[2]:  # Right mouse button
                 pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 node = grid[row][col]
