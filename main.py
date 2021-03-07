@@ -95,12 +95,13 @@ def heuristic(p1, p2):
     x2, y2 = p2
     return abs(x1 - x2) + abs(y1 - y2)
 
+
 def a_star(draw, grid, start, end):
     count = 0
     open_set = PriorityQueue()
     open_set.put((0, count, start))
     came_from = {}
-    g_score = {node: float("inf") for row in grid  for node in row}
+    g_score = {node: float("inf") for row in grid for node in row}
     g_score[start] = 0
     f_score = {node: float("inf") for row in grid for node in row}
     f_score[start] = heuristic(start.get_pos(), end.get_pos())
@@ -116,7 +117,6 @@ def a_star(draw, grid, start, end):
         open_set_hash.remove(current)
 
         if current == end:
-            # make path
             return True
 
         for neighbor in current.neighbors:
@@ -137,7 +137,8 @@ def a_star(draw, grid, start, end):
         if current != start:
             current.make_closed()
 
-        return False
+    return False
+
 
 def make_grid(rows, width):
     grid = []
@@ -226,7 +227,7 @@ def main(win, width):
                 if event.key == pygame.K_SPACE and not started:
                     for row in grid:
                         for node in row:
-                            node.update_neighbors()
+                            node.update_neighbors(grid)
                     a_star(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
     pygame.quit()
